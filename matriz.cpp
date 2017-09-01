@@ -2,8 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 int tablero[15][15] = {0};
+int filabomba=0;
+int columnabomba=0;
 void ftablero();
-void frand(int);
 void fbombas(int);
 void fcontarbombas(int,int);
 
@@ -31,12 +32,20 @@ int main(){
 	std::cin>>fila;
 	std::cout<<"Ingrese columna: ";
 	std::cin>>columna;
-	if (tablero[fila][columna]==7){
+	if (tablero[fila][columna]==9){
+		system("cls");
+		tablero[fila][columna]=10;
+		filabomba=fila;
+		columnabomba=columna;
+		ftablero();
 		std::cout<<"Perdiste!";
 		break;
 	}
 	fcontarbombas(fila, columna);
 	system("cls");
+	if(tablero[fila][columna]==0){
+		tablero[fila][columna]=11;
+	}
 	ftablero();
 	}
 	return 0;
@@ -75,7 +84,23 @@ void ftablero(){
 				}
 				std::cout<<"|";
 			}
+		if (tablero[filabomba][columnabomba]==10){
+			if(tablero[j][i]==9){
+				tablero[j][i]=10;
+			}
+		}
+			if(tablero[j][i]==0 || tablero[j][i]==9){
+				std::cout<<'X';
+			}
+			else if(tablero[j][i]==10){
+				std::cout<<'*';
+			}
+			else if(tablero[j][i]==11){
+				std::cout<<"0";
+			}
+			else{
 			std::cout<<tablero[j][i];
+			}
 			std::cout<<"  ";	
 		}
 		std::cout<<"\n";
@@ -87,11 +112,11 @@ void fbombas(int bombas){
 	for(i = bombas;i>0;i--){
 		rand1 = rand() % 15;
 		rand2 = rand() % 15;
-		if(tablero[rand1][rand2]==7){
+		if(tablero[rand1][rand2]==9){
 			i++;
 		}
 		else{
-			tablero[rand1][rand2]=7;
+			tablero[rand1][rand2]=9;
 		}
 	}
 	return;
@@ -125,7 +150,7 @@ void fcontarbombas(int fila, int columna){
 	}
 	for(i=iniciofila;i<=finfila;i++){
 		for(j=iniciocolumna;j<=fincolumna;j++){
-			if(tablero[fila-1+i][columna-1+j]==7){
+			if(tablero[fila-1+i][columna-1+j]==9){
 				contadorbombas++;
 			}
 		}
