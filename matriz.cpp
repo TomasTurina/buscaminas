@@ -21,9 +21,7 @@ int main(){
 		break;
 	}
 	}
-	while(true){	
-	//frand(bombas);
-	//std::cout<<"\n";
+	while(true){
 	system("cls");
 	ftablero();
 	int fila, columna;
@@ -84,14 +82,6 @@ void ftablero(){
 	}
 	return;
 }
-void frand(int bombas){
-	int num1, num2;
-	num1=rand() % bombas + 1;
-	std::cout<<num1<<"\n";
-	num2=rand() % bombas + 1;
-	std::cout<<num2;
-	return;
-}
 void fbombas(int bombas){
 	int rand1, rand2, i;
 	for(i = bombas;i>0;i--){
@@ -107,32 +97,38 @@ void fbombas(int bombas){
 	return;
 }
 void fcontarbombas(int fila, int columna){
-	int i, j, contadorbombas;
+	int i, j, contadorbombas, iniciofila, iniciocolumna, finfila, fincolumna;
 	contadorbombas=0;
-	for(i=0;i<=2;i++){
-		for(j=0;j<=2;j++){
-			if(fila!=0){
-				if(fila!=14){ //faltan contar primera e ultima columnas.
-					if(tablero[fila-1+i][columna-1+j]==7){
-					contadorbombas=contadorbombas+1;
-					}
-				}
-				else{
-					if(i<2){
-					if(tablero[fila-1+i][columna-1+j]==7){
-					contadorbombas=contadorbombas+1;
-					}
-					}	
-				}
-			}
-			else{
-				if(i<2){
-					if(tablero[fila+i][columna-1+j]==7){
-					contadorbombas=contadorbombas+1;
-					}
-				}
+	if(fila==0){
+		iniciofila=1;
+		finfila=2;
+	}
+	else if(fila==14){
+		finfila=1;
+		iniciofila=0;
+	}
+	else{
+		iniciofila=0;
+		finfila=2;
+	}
+	if(columna==0){
+		iniciocolumna=1;
+		fincolumna=2;
+	}
+	else if(columna==14){
+		fincolumna=1;
+		iniciocolumna=0;
+	}
+	else{
+		iniciocolumna=0;
+		fincolumna=2;
+	}
+	for(i=iniciofila;i<=finfila;i++){
+		for(j=iniciocolumna;j<=fincolumna;j++){
+			if(tablero[fila-1+i][columna-1+j]==7){
+				contadorbombas++;
 			}
 		}
-	}
 	tablero[fila][columna]=contadorbombas;
+	}
 }
