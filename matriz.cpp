@@ -10,7 +10,10 @@ void fcontarbombas(int,int);
 
 int main(){
 	srand(time(0));
-	int bombas;
+	bool c;
+	int bombas, fila, columna, puntos;
+	c=false;
+	puntos=0;
 	while(true){
 	std::cout<<"Ingrese la cantidad de bombas, entre 10 y 80: ";
 	std::cin>>bombas;
@@ -25,31 +28,50 @@ int main(){
 	while(true){
 	system("cls");
 	ftablero();
-	int fila, columna;
+	if(c==true){
+		std::cout<<"Ya ingresaste esa posicion.\n";
+		c=false;
+		puntos--;
+	}
 	fila=0;
 	columna=0;
 	std::cout<<"Ingrese fila: ";
 	std::cin>>fila;
 	std::cout<<"Ingrese columna: ";
 	std::cin>>columna;
-	if (tablero[fila][columna]==9){
+	
+	if (fila<15 && columna<15 && fila>=0 && columna>=0){
+		if(tablero[fila][columna]!=0){
+			c=true;
+		}
+		if (tablero[fila][columna]==9){
+			system("cls");
+			tablero[fila][columna]=10;
+			filabomba=fila;
+			columnabomba=columna;
+			ftablero();
+			std::cout<<"Perdiste! Puntos: "<<puntos;
+			break;
+		}
+		else{
+		puntos++;
+		
+		fcontarbombas(fila, columna);
 		system("cls");
-		tablero[fila][columna]=10;
-		filabomba=fila;
-		columnabomba=columna;
+		if(tablero[fila][columna]==0){
+			tablero[fila][columna]=11;
+		}
 		ftablero();
-		std::cout<<"Perdiste!";
-		break;
+		}	
 	}
-	fcontarbombas(fila, columna);
-	system("cls");
-	if(tablero[fila][columna]==0){
-		tablero[fila][columna]=11;
+	else{
+		std::cout<<"Ingrese una posicion valida del tablero.\n";
+		system("PAUSE");
 	}
-	ftablero();
 	}
 	return 0;
 }
+
 
 void ftablero(){
 	int i, j, ict, k;
