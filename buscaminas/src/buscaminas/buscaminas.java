@@ -15,7 +15,7 @@ public class buscaminas {
 		
 		while(d==true)
 		{
-			int bombas, fila, columna, filabomba, columnabomba, puntos, i, j, num;
+			int bombas, fila, marcar, columna, filabomba, columnabomba, puntos, i, j, num;
 			
 			for (int k=0; k<15; k++)
 			{
@@ -34,7 +34,7 @@ public class buscaminas {
 				@SuppressWarnings("resource")
 				Scanner s = new Scanner(System.in);
 				System.out.println("Ingrese la cantidad de bombas, entre 10 y 80: ");
-				bombas = Integer.parseInt(s.nextLine());
+				bombas = s.nextInt();
 				
 				if (bombas<10 || bombas>80)
 				{
@@ -64,7 +64,7 @@ public class buscaminas {
 				
 				if(fganar(tablero)==0)
 				{
-					System.out.println("Ganaste!\n");
+					System.out.println("Ganaste! Hiciste " + puntos + " puntos.\n");
 					break;
 				}
 				else
@@ -77,7 +77,11 @@ public class buscaminas {
 					c=false;
 					puntos--;
 				}
-				
+				marcar =0;
+				@SuppressWarnings("resource")
+				Scanner m = new Scanner(System.in);
+				System.out.println("Ingrese 1 para verificar la posicion, ingrese 2 para marcar la posicion.");
+				marcar = Integer.parseInt(m.nextLine());
 				fila=0;
 				columna=0;
 				@SuppressWarnings("resource")
@@ -88,9 +92,13 @@ public class buscaminas {
 				Scanner t = new Scanner(System.in);
 				System.out.println("Ingrese columna: ");
 				columna = Integer.parseInt(t.nextLine());
-				
+				if(marcar==1) 
+				{
 				if (fila<15 && columna<15 && fila>=0 && columna>=0)
 				{
+					if(tablero[fila][columna]>20) {
+						tablero[fila][columna]-=20;
+					}
 					if(tablero[fila][columna]>=10)
 					{
 						c=true;
@@ -128,7 +136,19 @@ public class buscaminas {
 					//system("PAUSE");
 				}
 			}
-			
+				else if(marcar==2) {
+					if(tablero[fila][columna]==9 || tablero[fila][columna]==19) {
+						puntos++;
+					}
+					if(tablero[fila][columna]>20) {
+						tablero[fila][columna]-=20;
+					}
+					else {
+						tablero[fila][columna]+=20;
+					}
+					ftablero(tablero, fila, columna);
+				}
+			}
 			@SuppressWarnings("resource")
 			Scanner s = new Scanner(System.in);
 			System.out.println("Para jugar otra partida ingrese 1, para salir ingrese otro numero.");
@@ -205,6 +225,9 @@ public class buscaminas {
 				else if(tablero[j][i]==19)
 				{
 					tableroimpreso += '*';
+				}
+				else if(tablero[j][i]>20) {
+					tableroimpreso += '!';
 				}
 				else
 				{
